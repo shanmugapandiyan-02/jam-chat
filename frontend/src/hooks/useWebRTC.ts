@@ -11,6 +11,19 @@ const configuration = {
     ]
 };
 
+interface MatchFoundData {
+    peerId: string;
+    role: "initiator" | "receiver";
+}
+
+interface SignalingData {
+    from: string;
+    offer?: RTCSessionDescriptionInit;
+    answer?: RTCSessionDescriptionInit;
+    candidate?: RTCIceCandidateInit;
+    message?: string;
+}
+
 export const useWebRTC = () => {
     const pc = useRef<RTCPeerConnection | null>(null);
     const {
@@ -63,7 +76,7 @@ export const useWebRTC = () => {
         };
 
         if (localStream) {
-            localStream.getTracks().forEach((track) => {
+            localStream.getTracks().forEach((track: MediaStreamTrack) => {
                 pc.current?.addTrack(track, localStream);
             });
         }
@@ -74,7 +87,7 @@ export const useWebRTC = () => {
     useEffect(() => {
         socket.connect();
 
-        socket.on("match-found", async ({ peerId, role }) => {
+        socket.on("match-found", async ({ peerId, role }: MatchFoundData) => {
             console.log(`Matched with ${peerId} as ${role}`);
             setIsSearching(false);
             setPeerId(peerId);
@@ -89,7 +102,7 @@ export const useWebRTC = () => {
             }
         });
 
-        socket.on("offer", async ({ from, offer }) => {
+        socket.on("offer", async ({ from, offer }: { from: string, offer: RTCSessionDescriptionInit }) => {
             console.log(`Received offer from ${from}`);
             const peerConn = createPeerConnection(from);
             await peerConn.setRemoteDescription(new RTCSessionDescription(offer));
@@ -98,14 +111,14 @@ export const useWebRTC = () => {
             socket.emit("answer", { to: from, answer });
         });
 
-        socket.on("answer", async ({ from, answer }) => {
+        socket.on("answer", async ({ from, answer }: { from: string, answer: RTCSessionDescriptionInit }) => {
             console.log(`Received answer from ${from}`);
             if (pc.current) {
                 await pc.current.setRemoteDescription(new RTCSessionDescription(answer));
             }
         });
 
-        socket.on("ice-candidate", async ({ from, candidate }) => {
+        socket.on("ice-candidate", async ({ from, candidate }: { from: string, candidate: RTCIceCandidateInit }) => {
             console.log(`Received candidate from ${from}`);
             if (pc.current) {
                 await pc.current.addIceCandidate(new RTCIceCandidate(candidate));
@@ -119,7 +132,7 @@ export const useWebRTC = () => {
             socket.emit("start-chat");
         });
 
-        socket.on("receive-message", ({ from, message }) => {
+        socket.on("receive-message", ({ from, message }: { from: string, message: string }) => {
             addMessage({ from: "stranger", text: message });
         });
 
