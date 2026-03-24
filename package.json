@@ -1,0 +1,17 @@
+{
+  "name": "jam-chat",
+  "version": "1.0.0",
+  "description": "A modern, fast, and feature-rich random video chat web application built with Next.js, WebRTC, and Socket.io.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
