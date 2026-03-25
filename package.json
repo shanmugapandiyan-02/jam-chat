@@ -1,17 +1,31 @@
 {
-  "name": "jam-chat",
-  "version": "1.0.0",
-  "description": "A modern, fast, and feature-rich random video chat web application built with Next.js, WebRTC, and Socket.io.",
-  "main": "index.js",
+  "name": "jam-chat-frontend",
+  "version": "1.0.2",
+  "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "concurrently": "^9.2.1"
+    "clsx": "^2.1.0",
+    "framer-motion": "^11.0.8",
+    "lucide-react": "^0.447.0",
+    "next": "15.0.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "socket.io-client": "^4.7.2",
+    "tailwind-merge": "^2.2.1",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.28",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.7.0"
   }
 }
